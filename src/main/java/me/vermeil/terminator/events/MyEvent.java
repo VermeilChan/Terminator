@@ -2,13 +2,12 @@ package me.vermeil.terminator.events;
 
 import me.vermeil.terminator.Terminator;
 import org.bukkit.ChatColor;
-import org.bukkit.entity.Arrow;
-import org.bukkit.entity.Enderman;
-import org.bukkit.entity.Entity;
-import org.bukkit.entity.Player;
+import org.bukkit.entity.*;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
+import org.bukkit.event.entity.EntityDamageByEntityEvent;
+import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.entity.ProjectileHitEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.ItemStack;
@@ -122,6 +121,27 @@ public class MyEvent implements Listener {
                 enderman.damage(371, shooter);
                 arrow.remove();
             }
+        }
+    }
+
+    /**
+     * <h1>Did not test it yet</h1>
+     * <p>this method ill check when an entity damages another entity
+     * as you can see arrow is an entity</p>
+     * <p>by the way i canceled the event, i think this ill stop enderman from teleporting
+     * </p>
+     * <p></p>
+     * <p>create a artifact and test to see if it works</p>
+     * @param event
+     */
+    @EventHandler
+    public void endermanHitEvent(EntityDamageByEntityEvent event) {
+        Entity arrow = event.getDamager();
+        Entity enderman = event.getEntity();
+        Entity entity = event.getDamageSource().getCausingEntity(); // this returs the entity tha caused the damage
+        if (arrow instanceof Arrow && enderman instanceof Enderman) {
+            event.setCancelled(true);
+            ((Enderman) enderman).damage(371,entity);
         }
     }
 }
